@@ -38,7 +38,4 @@ if data is not None:
     st.write("Data from the CSV:")
     st.dataframe(data)
 
-st.dataframe(lines_)
-
-word_filter2 = st.text_input("Search for a word2:")
 
