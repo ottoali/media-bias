@@ -106,7 +106,7 @@ if selected_sources:
                 st.bar_chart(pivot_df)
 
 
-                    else:
+                  else:
                         st.write("enter search term.")
                 else:
                     st.write("enter search term.")
