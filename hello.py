@@ -35,4 +35,4 @@ def load_data_from_github(file_list):
 
 data = load_data_from_github(CSV_FILES)
 
-st.dataframe(data)
+st.dataframe(data.head(20)
