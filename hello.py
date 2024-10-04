@@ -1,6 +1,7 @@
 #hello.py
 
 import requests
+from io import StringIO
 import streamlit as st
 import pandas as pd
 pd.set_option('display.max_colwidth', None)
