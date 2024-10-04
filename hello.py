@@ -19,16 +19,16 @@ def load_data_from_github(file_list):
   combined_data = pd.DataFrame()  # Initialize an empty DataFrame
   
   for file_name in file_list:
-  url = f"https://raw.githubusercontent.com/{GITHUB_USERNAME}/{REPO_NAME}/main/{file_name}"
-  headers = {'Authorization': f'token {GITHUB_TOKEN}'}
-  
-  response = requests.get(url, headers=headers)
-  
-  if response.status_code == 200:
-  csv_data = pd.read_csv(StringIO(response.text))
-  combined_data = pd.concat([combined_data, csv_data], ignore_index=True)  # Combine DataFrames
-  else:
-  st.error(f"Failed to load data from {file_name}.")
+    url = f"https://raw.githubusercontent.com/{GITHUB_USERNAME}/{REPO_NAME}/main/{file_name}"
+    headers = {'Authorization': f'token {GITHUB_TOKEN}'}
+    
+    response = requests.get(url, headers=headers)
+    
+    if response.status_code == 200:
+      csv_data = pd.read_csv(StringIO(response.text))
+      combined_data = pd.concat([combined_data, csv_data], ignore_index=True)  # Combine DataFrames
+    else:
+      st.error(f"Failed to load data from {file_name}.")
   
   return combined_data
 
