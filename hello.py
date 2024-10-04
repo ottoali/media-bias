@@ -10,23 +10,27 @@ pd.set_option("styler.render.max_elements", 1000)
 
 GITHUB_USERNAME = "ottoali"  # Replace with your GitHub username
 REPO_NAME = "data"              # Replace with your repo name
-FILE_PATH = "(use this)Final Refs Combined.csv"  # Replace with the path to your CSV file
+file_list = ["(use this)Final Refs Combined.csv","test.csv"]  # Replace with the path to your CSV file
 GITHUB_TOKEN = st.secrets["key"]  # Store your token in Streamlit secrets
 
 
 # Function to fetch CSV from GitHub
-def load_data_from_github():
-    url = f"https://raw.githubusercontent.com/{GITHUB_USERNAME}/{REPO_NAME}/main/{FILE_PATH}"
+def load_data_from_github(file_list):
+    combined_data = pd.DataFrame()  # Initialize an empty DataFrame
+
+    for file_name in file_list:s
+        url = f"https://raw.githubusercontent.com/{GITHUB_USERNAME}/{REPO_NAME}/main/{file_name}"
+        headers = {'Authorization': f'token {GITHUB_TOKEN}'}
+        
+        response = requests.get(url, headers=headers)
+        
+        if response.status_code == 200:
+            csv_data = pd.read_csv(StringIO(response.text))
+            combined_data = pd.concat([combined_data, csv_data], ignore_index=True)  # Combine DataFrames
+        else:
+            st.error(f"Failed to load data from {file_name}.")
     
-    headers = {'Authorization': f'token {GITHUB_TOKEN}'}
-    
-    response = requests.get(url, headers=headers)
-    
-    if response.status_code == 200:
-        return pd.read_csv(StringIO(response.text))
-    else:
-        st.error("Failed to load data from GitHub.")
-        return None
+    return combined_data
 
 # Streamlit app
 st.title("Secure CSV Data from GitHub")
