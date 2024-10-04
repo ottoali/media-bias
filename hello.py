@@ -10,7 +10,7 @@ pd.set_option("styler.render.max_elements", 1000)
 
 GITHUB_USERNAME = "ottoali"  # Replace with your GitHub username
 REPO_NAME = "data"              # Replace with your repo name
-CSV_FILES = ["(use this)Final Refs Combined.csv", "test.csv"]  # List of CSV files
+CSV_FILES = ["(use this)Final Refs Combined.csv", "test.csv","test.csv","test.csv","test.csv","test.csv","test.csv","test.csv","test.csv","test.csv"]  # List of CSV files
 GITHUB_TOKEN = st.secrets["key"]  # Access token from Streamlit secrets
 
 # Function to fetch and combine CSVs from GitHub
