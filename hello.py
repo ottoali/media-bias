@@ -9,7 +9,7 @@ pd.set_option("styler.render.max_elements", 1000)
 
 GITHUB_USERNAME = "ottoali"  # Replace with your GitHub username
 REPO_NAME = "data"              # Replace with your repo name
-FILE_PATH = "/refs/heads/main/(use this)Final Refs Combined.csv"  # Replace with the path to your CSV file
+FILE_PATH = "(use this)Final Refs Combined.csv"  # Replace with the path to your CSV file
 GITHUB_TOKEN = st.secrets["key"]  # Store your token in Streamlit secrets
 
 
