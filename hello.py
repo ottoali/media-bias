@@ -30,16 +30,13 @@ def load_data_from_github(file_list):
             st.error(f"Failed to load data from {file_name}.")
     
     return combined_data
-
-# Streamlit app
-st.title("Secure CSV Data from GitHub")
-
-# Load the data
-data = load_data_from_github()
+    
+data = load_data_from_github(CSV_FILES)
 
 # Display the DataFrame if loaded successfully
-if data is not None:
-    st.write("Data from the CSV:")
+if not data.empty:
+    st.write("Combined Data from CSVs:")
     st.dataframe(data)
-
+else:
+    st.warning("No data loaded.")
 
