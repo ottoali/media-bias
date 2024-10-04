@@ -24,7 +24,6 @@ def load_data_from_github(file_list):
   for file_name in file_list:
     url = f"https://raw.githubusercontent.com/{GITHUB_USERNAME}/{REPO_NAME}/main/{file_name}"
     headers = {'Authorization': f'token {GITHUB_TOKEN}'}
-    
     response = requests.get(url, headers=headers)
     
     if response.status_code == 200:
@@ -36,22 +35,12 @@ def load_data_from_github(file_list):
   return combined_data
 
 df = load_data_from_github(CSV_FILES)
-
 ref = load_data_from_github(ref_file)
-
-
-
-
-
-
 # Title of the app
 st.title("Dynamic Table")
 
-# Dropdown for selecting a city
-#date_filter = st.selectbox("Select a date:", options=["All"] + df["Date"].unique().tolist())
 
 df['date'] = pd.to_datetime(df['Date'])
-
 df = df.dropna()
 
 start_date, end_date = st.slider(
@@ -62,57 +51,36 @@ start_date, end_date = st.slider(
   )
 
 filtered_df = df[(df['date'] >= pd.Timestamp(start_date)) & (df['date'] <= pd.Timestamp(end_date))]
-
 word_filter = st.text_input("Search for a word:")
-
 word_filter2 = st.text_input("Search for a word2:")
-
-
 selected_sources= st.multiselect("Select sources to filter:", options=df['Source'].unique())
-
     # Check if any options are selected
 if selected_sources:
-    # Filter the DataFrame based on selected options
-    filtered_df = df[df['Source'].isin(selected_sources)]
-    
-    #if not empty search terms
-    if word_filter!="":
-        if len(word_filter)>2:
+  filtered_df = df[df['Source'].isin(selected_sources)]
+  if word_filter!="":
+    if len(word_filter)>2:
+      if word_filter:
+        filtered_df = filtered_df[filtered_df["body"].str.contains(word_filter, case=False)].sort_values(by="date",ascending=True)
+        filtered_df = filtered_df[filtered_df["body"].str.contains(word_filter2, case=False)].sort_values(by="date",ascending=True)
+        st.write(len(filtered_df)," Paragraphs containing term")
+        st.write(filtered_df['ArticleID'].nunique()," Articles containing term")
+        st.dataframe(filtered_df.head(2000))
+        
+        csv = filtered_df.to_csv(index=False)  # Convert DataFrame to CSV format
+        st.download_button(
+            label="Export DataFrame as CSV",
+            data=csv,
+            file_name='news_data.csv',
+            mime='text/csv'
+        )
 
-            if word_filter:
-                filtered_df = filtered_df[filtered_df["body"].str.contains(word_filter, case=False)].sort_values(by="date",ascending=True)
-                filtered_df = filtered_df[filtered_df["body"].str.contains(word_filter2, case=False)].sort_values(by="date",ascending=True)
-
-                st.write(len(filtered_df)," Paragraphs containing term")
-                st.write(filtered_df['ArticleID'].nunique()," Articles containing term")
-                st.dataframe(filtered_df.head(2000))
-                
-                csv = filtered_df.to_csv(index=False)  # Convert DataFrame to CSV format
-                st.download_button(
-                    label="Export DataFrame as CSV",
-                    data=csv,
-                    file_name='news_data.csv',
-                    mime='text/csv'
-                )
-
-                grouped_df = filtered_df.groupby(['Source', 'date']).size().reset_index(name='Count')
-                pivot_df = grouped_df.pivot(index='date', columns='Source', values='Count')
+        grouped_df = filtered_df.groupby(['Source', 'date']).size().reset_index(name='Count')
+        pivot_df = grouped_df.pivot(index='date', columns='Source', values='Count')
 
 
-                pattern = "|".join(filtered_df["ArticleID"])
-                headlines = ref[ref["ArticleID"].str.contains(pattern)]
-                st.dataframe(headlines)
+        pattern = "|".join(filtered_df["ArticleID"])
+        headlines = ref[ref["ArticleID"].str.contains(pattern)]
+        st.dataframe(headlines)
 
-                st.bar_chart(pivot_df)
-
-
-                  else:
-                        st.write("enter search term.")
-                else:
-                    st.write("enter search term.")
-
-
-
-    else:
-        st.write("Please select at least one fruit to view results.")
+        st.bar_chart(pivot_df)
 
