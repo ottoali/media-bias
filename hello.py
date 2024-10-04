@@ -17,8 +17,7 @@ GITHUB_TOKEN = st.secrets["key"]  # Store your token in Streamlit secrets
 # Function to fetch CSV from GitHub
 def load_data_from_github(file_list):
     combined_data = pd.DataFrame()  # Initialize an empty DataFrame
-
-    for file_name in file_list:s
+    for file_name in file_list:
         url = f"https://raw.githubusercontent.com/{GITHUB_USERNAME}/{REPO_NAME}/main/{file_name}"
         headers = {'Authorization': f'token {GITHUB_TOKEN}'}
         
