@@ -7,9 +7,9 @@ pd.set_option('display.max_colwidth', None)
 from datetime import datetime
 pd.set_option("styler.render.max_elements", 1000)
 
-ref = pd.read_csv("https://github.com/ottoali/media-bias/blob/main/wwmissing.csv")
+ref = pd.read_csv("https://raw.githubusercontent.com/ottoali/media-bias/refs/heads/main/wwmissing.csv")
 
-lines_ = pd.read_csv("https://github.com/ottoali/media-bias/blob/main/wwmissing.csv")
+lines_ = pd.read_csv("https://raw.githubusercontent.com/ottoali/media-bias/refs/heads/main/wwmissing.csv")
 
 
 ####### things to add:
