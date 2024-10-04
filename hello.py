@@ -7,9 +7,9 @@ pd.set_option('display.max_colwidth', None)
 from datetime import datetime
 pd.set_option("styler.render.max_elements", 1000)
 
-ref = pd.read_csv("/Users/hamza/Library/Mobile Documents/iCloud~md~obsidian/Documents/Media Project/(use this)Final Refs Combined.csv")
+ref = pd.read_csv("")
 
-lines_ = pd.read_csv("/Users/hamza/Library/Mobile Documents/iCloud~md~obsidian/Documents/Media Project/(use this)Final Lines Combined.csv")
+lines_ = pd.read_csv("")
 
 
 ####### things to add:
