@@ -10,9 +10,9 @@ pd.set_option("styler.render.max_elements", 1000)
 
 GITHUB_USERNAME = "ottoali"  # Replace with your GitHub username
 REPO_NAME = "data"              # Replace with your repo name
-CSV_FILES = ["lines_output_part_1","lines_output_part_2","lines_output_part_3","lines_output_part_4",
-             "lines_output_part_5","lines_output_part_6","lines_output_part_7","lines_output_part_8",
-            "lines_output_part_9","lines_output_part_10"]  # List of CSV files
+CSV_FILES = ["lines_output_part_1.csv","lines_output_part_2.csv","lines_output_part_3.csv","lines_output_part_4.csv",
+             "lines_output_part_5.csv","lines_output_part_6.csv","lines_output_part_7.csv","lines_output_part_8.csv",
+            "lines_output_part_9.csv","lines_output_part_10.csv"]  # List of CSV files
 
              
 GITHUB_TOKEN = st.secrets["key"]  # Access token from Streamlit secrets
