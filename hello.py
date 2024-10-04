@@ -10,13 +10,13 @@ pd.set_option("styler.render.max_elements", 1000)
 
 GITHUB_USERNAME = "ottoali"  # Replace with your GitHub username
 REPO_NAME = "data"              # Replace with your repo name
-file_list = ["(use this)Final Refs Combined.csv","test.csv"]  # Replace with the path to your CSV file
-GITHUB_TOKEN = st.secrets["key"]  # Store your token in Streamlit secrets
+CSV_FILES = ["(use this)Final Refs Combined.csv", "test.csv"]  # List of CSV files
+GITHUB_TOKEN = st.secrets["github"]["token"]  # Access token from Streamlit secrets
 
-
-# Function to fetch CSV from GitHub
+# Function to fetch and combine CSVs from GitHub
 def load_data_from_github(file_list):
     combined_data = pd.DataFrame()  # Initialize an empty DataFrame
+
     for file_name in file_list:
         url = f"https://raw.githubusercontent.com/{GITHUB_USERNAME}/{REPO_NAME}/main/{file_name}"
         headers = {'Authorization': f'token {GITHUB_TOKEN}'}
