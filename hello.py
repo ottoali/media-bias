@@ -33,3 +33,5 @@ def load_data_from_github(file_list):
   return combined_data
 
 data = load_data_from_github(CSV_FILES)
+
+st.dataframe(data)
