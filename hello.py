@@ -225,17 +225,17 @@ with tabs[1]:
             
             st.write("Searching for the following term(s) in the same headline:")
             st.write("  Query 1:", term1_)
-            if term2_!="":
+            if term2_ !="":
                 st.write("  Query 2:", term2_)
-            if term3_!="":
+            if term3_ !="":
                 st.write("  Query 3:", term3_)
 
             st.markdown("---")  # This creates a horizontal line
 
 
-            filtered_ref['Highlighted'] = filtered_ref['Headline'].apply(lambda x: highlight_search_term(x, word_filter))
+            filtered_ref['Highlighted'] = filtered_ref['Headline'].apply(lambda x: highlight_search_term(x, head_filter))
             filtered_ref = filtered_ref[["Source","Date","Highlighted","Link","ArticleID","date"]]
-            st.write(filtered_df['ArticleID'].nunique()," Headlines containing term(s)")   
+            st.write(filtered_ref['ArticleID'].nunique()," Headlines containing term(s)")   
             st.markdown("---")  # This creates a horizontal line
             
             st.write("This is a preview. For the full list, click on 'export' below.")   
