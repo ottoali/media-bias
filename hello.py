@@ -189,7 +189,7 @@ with tabs[1]:
     )
 
 
-    filtered_ref = ref[(ref['date'] >= pd.Timestamp(start_date)) & (ref['date'] <= pd.Timestamp(end_date))]
+    filtered_ref = ref[(ref['date'] >= pd.Timestamp(start_date_)) & (ref['date'] <= pd.Timestamp(end_date_))]
 
     term1_ = ""
     term2_ = ""
