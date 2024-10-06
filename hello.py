@@ -75,7 +75,7 @@ with tabs[0]:
         word_filter2 = st.text_input("Search for a second mandatory term in the paragraph/line:")
         
         start_date, end_date = st.slider(
-        "Select Date Range:",
+        "Select Date Range_:",
         min_value=df['date'].min().date(),
         max_value=df['date'].max().date(),
         value=(df['date'].min().date(), df['date'].max().date())
@@ -166,7 +166,7 @@ with tabs[1]:
 
     col1_, col2_ =st.columns([1, 1])
 
-    ref['date'] = pd.to_datetime(df['Date'])
+    ref['date'] = pd.to_datetime(ref['Date'])
 
 
 
