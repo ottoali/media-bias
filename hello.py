@@ -37,6 +37,7 @@ def load_data_from_github(file_list):
 df = load_data_from_github(CSV_FILES)
 ref = load_data_from_github(ref_file)
 
+
 # Title of the app
 st.title("Media Analysis Database")
 
@@ -57,6 +58,8 @@ df['date'] = pd.to_datetime(df['Date'])
 
 df = df.dropna()
 
+
+# Create a button in the Streamlit app
 
 
 with tabs[0]:
@@ -81,85 +84,81 @@ with tabs[0]:
         value=(df['date'].min().date(), df['date'].max().date())
     )
 
+    if st.button("Submit"):
 
-    filtered_df = df[(df['date'] >= pd.Timestamp(start_date)) & (df['date'] <= pd.Timestamp(end_date))]
+        filtered_df = df[(df['date'] >= pd.Timestamp(start_date)) & (df['date'] <= pd.Timestamp(end_date))]
 
-    term1 = ""
-    term2 = ""
-    term3 = ""
-
-
-
-
-    # Check if any options are selected
-    if selected_sources:
-        # Filter the DataFrame based on selected options
-        filtered_df = df[df['Source'].isin(selected_sources)]
+        term1 = ""
+        term2 = ""
+        term3 = ""
 
 
-        #if not empty search terms
-        if word_filter!="" and len(word_filter)>2 and not word_filter.endswith("|"):
-            filtered_df = filtered_df[filtered_df["body"].str.contains(word_filter, case=False)].sort_values(by="date",ascending=True)
-            term1 = word_filter.replace("|"," OR ") 
+        # Check if any options are selected
+        if selected_sources:
+            # Filter the DataFrame based on selected options
+            filtered_df = df[df['Source'].isin(selected_sources)]
 
-            
-            if word_filter2!="" and len(word_filter2)>2 and not word_filter2.endswith("|"):
-            
-                filtered_df = filtered_df[filtered_df["body"].str.contains(word_filter2, case=False)].sort_values(by="date",ascending=True)
-                term2 = word_filter2.replace("|"," OR ") 
+
+            #if not empty search terms
+            if word_filter!="" and len(word_filter)>2 and not word_filter.endswith("|"):
+                filtered_df = filtered_df[filtered_df["body"].str.contains(word_filter, case=False)].sort_values(by="date",ascending=True)
+                term1 = word_filter.replace("|"," OR ") 
+
                 
-            
+                if word_filter2!="" and len(word_filter2)>2 and not word_filter2.endswith("|"):
+                
+                    filtered_df = filtered_df[filtered_df["body"].str.contains(word_filter2, case=False)].sort_values(by="date",ascending=True)
+                    term2 = word_filter2.replace("|"," OR ") 
+                    
+                
 
-                if word_filter3!="" and len(word_filter3)>2 and not word_filter3.endswith("|"):
+                    if word_filter3!="" and len(word_filter3)>2 and not word_filter3.endswith("|"):
 
-                    filtered_df = filtered_df[filtered_df["body"].str.contains(word_filter3, case=False)].sort_values(by="date",ascending=True)
-                    term3 = word_filter3.replace("|"," OR ") 
+                        filtered_df = filtered_df[filtered_df["body"].str.contains(word_filter3, case=False)].sort_values(by="date",ascending=True)
+                        term3 = word_filter3.replace("|"," OR ") 
 
-            
-            st.write("Searching for the following term(s) in the same paragraph:")
-            st.write("  Query 1:", term1)
-            if term2 !="":
-                st.write("  Query 2:", term2)
-            if term3 !="":
-                st.write("  Query 3:", term3)
+                
+                st.write("Searching for the following term(s) in the same paragraph:")
+                st.write("  Query 1:", term1)
+                if term2 !="":
+                    st.write("  Query 2:", term2)
+                if term3 !="":
+                    st.write("  Query 3:", term3)
 
-            st.markdown("---")  # This creates a horizontal line
-
-
-            filtered_df['Highlighted'] = filtered_df['body'].apply(lambda x: highlight_search_term(x, word_filter))
-            filtered_df = filtered_df[["Source","Date","Highlighted","Link","ArticleID","body","date"]]
-            st.write(len(filtered_df)," Paragraphs containing terms(s)")
-            st.write(filtered_df['ArticleID'].nunique()," Articles containing term(s)")   
-            st.markdown("---")  # This creates a horizontal line
-            
-            st.write("This is a preview. For the full list, click on 'export' below.")   
-            st.dataframe(filtered_df.head(100))
-            
-            
-            csv = filtered_df.to_csv(index=False)  # Convert DataFrame to CSV format
-            st.download_button(
-                label="Export DataFrame as CSV",
-                data=csv,
-                file_name='news_data.csv',
-                mime='text/csv')
+                st.markdown("---")  # This creates a horizontal line
 
 
+                filtered_df['Highlighted'] = filtered_df['body'].apply(lambda x: highlight_search_term(x, word_filter))
+                filtered_df = filtered_df[["Source","Date","Highlighted","Link","ArticleID","body","date"]]
+                st.write(len(filtered_df)," Paragraphs containing terms(s)")
+                st.write(filtered_df['ArticleID'].nunique()," Articles containing term(s)")   
+                st.markdown("---")  # This creates a horizontal line
+                
+                st.write("This is a preview. For the full list, click on 'export' below.")   
+                st.dataframe(filtered_df.head(100))
+                
+                
+                csv = filtered_df.to_csv(index=False)  # Convert DataFrame to CSV format
+                st.download_button(
+                    label="Export DataFrame as CSV",
+                    data=csv,
+                    file_name='news_data.csv',
+                    mime='text/csv')
 
-            
-            
-            st.markdown("---")  # This creates a horizontal line
-            grouped_df = filtered_df.groupby(['Source', 'date']).size().reset_index(name='Count')
-            pivot_df = grouped_df.pivot(index='date', columns='Source', values='Count')
+                st.markdown("---")  # This creates a horizontal line
+                grouped_df = filtered_df.groupby(['Source', 'date']).size().reset_index(name='Count')
+                pivot_df = grouped_df.pivot(index='date', columns='Source', values='Count')
 
-            pattern = "|".join(filtered_df["ArticleID"])
-            headlines = ref[ref["ArticleID"].str.contains(pattern)]
+                pattern = "|".join(filtered_df["ArticleID"])
+                headlines = ref[ref["ArticleID"].str.contains(pattern)]
 
-            st.write("This is a list of all headlines in which the paragraphs above appear.")   
-            st.dataframe(headlines)
-            
-            st.markdown("---")  # This creates a horizontal line
-            st.write("This is a timeseries chart showing the presence of relevant paragraphs over time.")   
-            st.bar_chart(pivot_df)
+                st.write("This is a list of all headlines in which the paragraphs above appear.")   
+                st.dataframe(headlines)
+                
+                st.markdown("---")  # This creates a horizontal line
+                st.write("This is a timeseries chart showing the presence of relevant paragraphs over time.")   
+                st.bar_chart(pivot_df)
+
 
 
 with tabs[1]:
@@ -187,6 +186,12 @@ with tabs[1]:
         max_value=ref['date'].max().date(),
         value=(ref['date'].min().date(), ref['date'].max().date())
     )
+
+
+
+    
+
+
 
 
     filtered_ref = ref[(ref['date'] >= pd.Timestamp(start_date_)) & (ref['date'] <= pd.Timestamp(end_date_))]
