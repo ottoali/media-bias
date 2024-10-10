@@ -8,6 +8,14 @@ pd.set_option('display.max_colwidth', None)
 from datetime import datetime
 pd.set_option("styler.render.max_elements", 1000)
 
+GITHUB_USERNAME = "ottoali"  # Replace with your GitHub username
+REPO_NAME = "data"              # Replace with your repo name
+CSV_FILES = ["lines_output_part_1.csv","lines_output_part_2.csv","lines_output_part_3.csv","lines_output_part_4.csv",
+               "lines_output_part_5.csv","lines_output_part_6.csv","lines_output_part_7.csv","lines_output_part_8.csv",
+              "lines_output_part_9.csv","lines_output_part_10.csv"]  # List of CSV files
+  
+
+
 def main():
   GITHUB_USERNAME = "ottoali"  # Replace with your GitHub username
   REPO_NAME = "data"              # Replace with your repo name
