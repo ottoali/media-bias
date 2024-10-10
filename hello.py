@@ -255,5 +255,5 @@ def main():
                   file_name='headline_data.csv',
                   mime='text/csv')
 
-if name == 'main':
+if __name__ == "__main__":
   main()
